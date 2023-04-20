@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/> <!-- Note the closing '/' character -->
-    <title>Title</title>
-</head>
-<body>
-<th:block th:each="name : ${names}">
-   <ul>
-      <li th:text = "${name}"></li>
-   </ul>
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<th:block th:unless="${names} and ${names.size()>0}"><!--shows if false-->
+    <p>No Names Yet!</p>
+    <a href="events/create">Go Add a Name</a>
 </th:block>
+
+
+   <table class="table">
+       <thead>
+           <tr>
+               <th>
+                   Name
+               </th>
+           </tr>
+       </thead>
+      <tr th:each="name : ${names}">
+          <td th:text = "${name}"></td>
+      </tr>
+   </table>
+
 </body>
 </html>

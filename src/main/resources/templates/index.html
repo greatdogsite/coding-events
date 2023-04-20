@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/> <!-- Note the closing '/' character -->
-    <title>Title</title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
- <a href="/events">Events</a>
+
+<nav th:replace="fragments :: navigation"></nav>
+
 </body>
 </html>
