@@ -5,22 +5,24 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<th:block th:unless="${names} and ${names.size()>0}"><!--shows if false-->
-    <p>No Names Yet!</p>
-    <a href="events/create">Go Add a Name</a>
+<th:block th:unless="${events} and ${events.size()>0}"><!--shows if false-->
+    <p>No events Yet!</p>
+    <a href="create">Go Add an Event</a>
 </th:block>
 
 
    <table class="table">
        <thead>
            <tr>
-               <th>
-                   Name
-               </th>
+               <th>ID</th>
+               <th>Event</th>
+               <th>Description</th>
            </tr>
        </thead>
-      <tr th:each="name : ${names}">
-          <td th:text = "${name}"></td>
+      <tr th:each="event : ${events}">
+          <td th:text = "${event.id}"></td>
+          <td th:text = "${event.name}"></td> <!-- thymeleaf will automatically use the getter for .name-->
+          <td th:text = "${event.description}"></td>
       </tr>
    </table>
 

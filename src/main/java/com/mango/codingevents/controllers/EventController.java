@@ -1,6 +1,8 @@
 package com.mango.codingevents.controllers;
 
 
+import com.mango.codingevents.data.EventData;
+import com.mango.codingevents.models.Event;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +13,10 @@ import java.util.*;
 @RequestMapping("events")
 public class EventController {
 
-    private static List<String> names = new ArrayList<>();
-
     //@GetMapping("index")
     @GetMapping()
     public String displayAllEvents(Model model){
-        model.addAttribute("names",names);
+        model.addAttribute("events", EventData.getAll()); //for accessing Class Methods
         return "events/index";
     }
 
@@ -26,10 +26,36 @@ public class EventController {
         return "events/create";
     }
 
+//    @PostMapping("create")
+//    public String processCreateEventForm(@RequestParam String eventName,
+//                                         @RequestParam String eventDescription){
+//        EventData.add(new Event(eventName, eventDescription)); //add to private static arraylist
+////        return "redirect:index"; //redirect is 300 level http redirect to events/index
+//        return "redirect:";
+//    }
+
     @PostMapping("create")
-    public String processCreateEventForm(@RequestParam String eventName){
-        names.add(eventName); //add to private static arraylist
-//        return "redirect:index"; //redirect is 300 level http redirect to events/index
+    public String processCreateEventForm(@ModelAttribute Event newEvent){
+        EventData.add(newEvent); //add to private static arraylist
         return "redirect:";
     }
+
+    @GetMapping("delete")
+    public String renderDelete(Model model){
+        model.addAttribute("title", "Delete Events");
+        model.addAttribute("events", EventData.getAll());
+        return "events/delete";
+    }
+
+    @PostMapping("delete")
+    // since checkbox form collected all eventIds under the same name, they will be submitted as a collection
+    public String processDelete(@RequestParam(required = false) int[] eventIds){
+        if (eventIds != null){
+            for (int id : eventIds){
+                EventData.remove(id);
+            }
+        }
+        return "redirect:";
+    }
+
 }
